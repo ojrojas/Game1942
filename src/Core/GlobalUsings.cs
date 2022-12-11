@@ -16,8 +16,9 @@ global using Core.Particles;
 global using Engine.ObjectGame;
 global using Core.Objects.Enemies;
 global using Microsoft.Xna.Framework.Audio;
-
-
+global using Core.Objects.Text;
+global using System.Reflection;
+global using Core.Levels;
 
 
 

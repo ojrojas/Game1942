@@ -151,7 +151,7 @@ public abstract class BaseGameState
     /// Render the state currently in action
     /// </summary>
     /// <param name="spriteBatch">SpriteBatch from MainGame</param>
-    public void Render(SpriteBatch spriteBatch)
+    public virtual void Render(SpriteBatch spriteBatch)
     {
         foreach (var gameObject in _gameObjects.OrderBy(a => a.ZIndex))
         {
@@ -181,5 +181,10 @@ public abstract class BaseGameState
     protected void RemoveGameObject(BaseObjectGame gameObject) 
     {
         _gameObjects.Remove(gameObject);
+    }
+
+    protected SpriteFont LoadFont(string fontName)
+    {
+        return _contentManager.Load<SpriteFont>(fontName);
     }
 }

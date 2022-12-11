@@ -91,9 +91,9 @@
         {
             switch (gameEvent)
             {
-                case GamePlayStateEvents.ChopperHitBy m:
+                case GamePlayStateEvents.ObjectHitBy m:
                     JustHit(m.HitBy);
-                    SendEvent(new GamePlayStateEvents.EnemyLostLife(_life));
+                    SendEvent(new GamePlayStateEvents.ObjectLostLife(_life));
                     break;
             }
         }

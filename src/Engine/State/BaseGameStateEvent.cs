@@ -21,5 +21,6 @@
         /// Event Change into menus or pause or new phase or stage
         /// </summary>
         public class ChangePhase : IBaseGameStateEvent { }
+        public class Nothing : IBaseGameStateEvent { }
     }
 }

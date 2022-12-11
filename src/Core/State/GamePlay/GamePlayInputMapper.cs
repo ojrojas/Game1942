@@ -18,12 +18,16 @@ public class GamePlayInputMapper : IBaseInputMapper
         if (gamePadState.DPad.Up == ButtonState.Pressed || gamePadState.ThumbSticks.Left.Y > 0)
             commands.Add(new GamePlayInputCommand.PlayerMoveUp());
         if (gamePadState.DPad.Down == ButtonState.Pressed || gamePadState.ThumbSticks.Left.Y < 0)
+        {
             commands.Add(new GamePlayInputCommand.PlayerMoveDown());
+            commands.Add(new GamePlayInputCommand.PlayerStopMoving());
+        }
         if (gamePadState.DPad.Right == ButtonState.Pressed || gamePadState.ThumbSticks.Left.X > 0)
             commands.Add(new GamePlayInputCommand.PlayerMoveRight());
-        if (gamePadState.DPad.Left == ButtonState.Pressed || gamePadState.ThumbSticks.Left.X < 0)
+        else if (gamePadState.DPad.Left == ButtonState.Pressed || gamePadState.ThumbSticks.Left.X < 0)
             commands.Add(new GamePlayInputCommand.PlayerMoveLeft());
-
+        else
+            commands.Add(new GamePlayInputCommand.PlayerStopMoving());
         // command action
         if (gamePadState.Buttons.Y == ButtonState.Pressed)
             commands.Add(new GamePlayInputCommand.PlayerActionY());

@@ -11,16 +11,16 @@
     /// Passive objects could be bullets, walls or other things that don't 
     /// </summary>
     public class AABBCollisionDetector<P, A>
-        where P : BaseObjectGame ///Pasive Objects
-        where A : BaseObjectGame ///Active Objects
+        where P : BaseObjectGame
+        where A : BaseObjectGame
     {
-        private IList<P> _passiveObjects;
+        private IEnumerable<P> _passiveObjects;
 
         /// <summary>
         /// Create an instance of the collision detector
         /// </summary>
         /// <param name="passiveObjects">passive objects don't react to collisions</param>
-        public AABBCollisionDetector(IList<P> passiveObjects)
+        public AABBCollisionDetector(IEnumerable<P> passiveObjects)
         {
             _passiveObjects = passiveObjects;
         }
@@ -46,11 +46,17 @@
         /// </summary>
         /// <param name="activeObjects"></param>
         /// <param name="collisionHandler"></param>
-        public void DetectCollisions(IList<A> activeObjects, Action<P, A> collisionHandler)
+        public void DetectCollisions(IEnumerable<A> activeObjects, Action<P, A> collisionHandler)
         {
             foreach (var passiveObject in _passiveObjects)
             {
+                var copiedList = new List<A>();
                 foreach (var activeObject in activeObjects)
+                {
+                    copiedList.Add(activeObject);
+                }
+
+                foreach (var activeObject in copiedList)
                 {
                     if (DetectCollision(passiveObject, activeObject))
                     {

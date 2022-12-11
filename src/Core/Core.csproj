@@ -11,4 +11,8 @@
     <ProjectReference Include="..\Engine\Engine.csproj" />
   </ItemGroup>
 
+	<ItemGroup>
+		<EmbeddedResource Include="Levels\LevelData\Level1.txt" />
+	</ItemGroup>
+
 </Project>

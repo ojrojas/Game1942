@@ -26,13 +26,17 @@ public class BaseObjectGame : IAggregateRoot
     /// <summary>
     /// Width object game img
     /// </summary>
-    public int Width => _texture.Width;
+    public virtual int Width => _texture.Width;
     /// <summary>
     /// Height object game img
     /// </summary>
-    public int Height => _texture.Height;
+    public virtual int Height => _texture.Height;
 
     public event EventHandler<IBaseGameStateEvent> OnObjectChanged;
+
+    protected float _angle;
+
+    protected Vector2 _direction;
 
     protected IList<BoundingBox> _boundingBoxes = new List<BoundingBox>();
 
@@ -112,5 +116,13 @@ public class BaseObjectGame : IAggregateRoot
     {
         _boundingBoxTexture = new Texture2D(graphicsDevice, 1, 1);
         _boundingBoxTexture.SetData(new Color[] { Color.White });
+    }
+
+    protected Vector2 CalculateDirection(float angleOffset = 0.0f)
+    {
+        _direction = new Vector2((float)Math.Cos(_angle - angleOffset), (float)Math.Sin(_angle - angleOffset));
+        _direction.Normalize();
+
+        return _direction;
     }
 }

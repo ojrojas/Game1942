@@ -18,5 +18,7 @@
 
         public class PlayerActionL2 : IBaseInputCommand { };
         public class PlayerActionR2 : IBaseInputCommand { };
+
+        public class PlayerStopMoving: IBaseInputCommand { };
     }
 }

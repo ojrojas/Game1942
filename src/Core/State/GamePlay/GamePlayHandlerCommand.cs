@@ -34,6 +34,10 @@
                     _playerSprite.MoveDown();
                     KeepPlayerInBounds();
                 }
+                if (command is GamePlayInputCommand.PlayerStopMoving && !_playerDead)
+                {
+                    _playerSprite.StopMoving();
+                }
                 if (command is GamePlayInputCommand.PlayerActionY)
                 {
                     Shoot(gameTime, TypeShootEnum.Bullets);
