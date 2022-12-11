@@ -5,6 +5,7 @@
 /// </summary>
 public abstract class BaseGameState
 {
+    protected bool _debug = false;
     /// <summary>
     /// List game objects stages
     /// </summary>
@@ -152,8 +153,15 @@ public abstract class BaseGameState
     /// <param name="spriteBatch">SpriteBatch from MainGame</param>
     public void Render(SpriteBatch spriteBatch)
     {
-        foreach(var gameObject in _gameObjects.OrderBy(o => o.ZIndex))
+        foreach (var gameObject in _gameObjects.OrderBy(a => a.ZIndex))
+        {
+            if (_debug)
+            {
+                gameObject.RenderBoundingBoxes(spriteBatch);
+            }
+
             gameObject.Render(spriteBatch);
+        }
     }
 
     /// <summary>

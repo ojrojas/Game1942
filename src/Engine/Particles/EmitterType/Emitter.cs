@@ -8,6 +8,9 @@
         private IEmitterType _emitterType;
         private int _nbParticleEmittedPerUpdate = 0;
         private int _maxNbParticle = 0;
+        private bool _active = true;
+
+        public int Age { get; set; }
 
         public Emitter(Texture2D texture,
                        Vector2 position,
@@ -22,11 +25,15 @@
             _nbParticleEmittedPerUpdate = nbParticleEmittedPerUpdate;
             _maxNbParticle = maxParticles;
             Position = position;
+            Age = 0;
         }
 
         public void Update(GameTime gameTime)
         {
-            EmitParticles();
+            if (_active)
+            {
+                EmitParticles();
+            }
 
             var particleNode = _activeParticles.First;
             while (particleNode != null)
@@ -41,7 +48,15 @@
 
                 particleNode = nextNode;
             }
+
+            Age++;
         }
+
+        public void Deactivate()
+        {
+            _active = false;
+        }
+
         public override void Render(SpriteBatch spriteBatch)
         {
             var sourceRectangle = new Rectangle(0, 0, _texture.Width, _texture.Height);

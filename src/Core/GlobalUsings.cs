@@ -14,6 +14,9 @@ global using Microsoft.Xna.Framework.Input;
 global using Engine.Particles;
 global using Core.Particles;
 global using Engine.ObjectGame;
+global using Core.Objects.Enemies;
+global using Microsoft.Xna.Framework.Audio;
+
 
 
 

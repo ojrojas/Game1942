@@ -8,6 +8,12 @@ public class BaseObjectGame : IAggregateRoot
     /// Texture object (img)
     /// </summary>
     protected Texture2D _texture;
+
+    /// <summary>
+    /// Bounding texture for collisions
+    /// </summary>
+    protected Texture2D _boundingBoxTexture;
+
     /// <summary>
     /// zIndex position layer
     /// </summary>
@@ -28,6 +34,10 @@ public class BaseObjectGame : IAggregateRoot
 
     public event EventHandler<IBaseGameStateEvent> OnObjectChanged;
 
+    protected IList<BoundingBox> _boundingBoxes = new List<BoundingBox>();
+
+    public bool Destroyed { get; private set; }
+
     /// <summary>
     /// Position Scene (methods setter, getter)
     /// </summary>
@@ -36,7 +46,22 @@ public class BaseObjectGame : IAggregateRoot
         get => _position;
         set
         {
+            var deltaX = value.X - _position.X;
+            var deltaY = value.Y - _position.Y;
             _position = value;
+
+            foreach (var bb in _boundingBoxes)
+            {
+                bb.Position = new Vector2(bb.Position.X + deltaX, bb.Position.Y + deltaY);
+            }
+        }
+    }
+
+    public IList<BoundingBox> BoundingBoxes
+    {
+        get
+        {
+            return _boundingBoxes;
         }
     }
 
@@ -58,5 +83,34 @@ public class BaseObjectGame : IAggregateRoot
     public void SendEvent(IBaseGameStateEvent eventGame)
     {
         OnObjectChanged?.Invoke(this, eventGame);
+    }
+
+    public void RenderBoundingBoxes(SpriteBatch spriteBatch)
+    {
+        if (_boundingBoxTexture == null)
+        {
+            CreateBoundingBoxTexture(spriteBatch.GraphicsDevice);
+        }
+
+        foreach (var bb in _boundingBoxes)
+        {
+            spriteBatch.Draw(_boundingBoxTexture, bb.Rectangle, new Color(Color.Red, .2f));
+        }
+    }
+
+    public void Destroy()
+    {
+        Destroyed = true;
+    }
+
+    public void AddBoundingBox(BoundingBox bb)
+    {
+        _boundingBoxes.Add(bb);
+    }
+
+    private void CreateBoundingBoxTexture(GraphicsDevice graphicsDevice)
+    {
+        _boundingBoxTexture = new Texture2D(graphicsDevice, 1, 1);
+        _boundingBoxTexture.SetData(new Color[] { Color.White });
     }
 }

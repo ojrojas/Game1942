@@ -48,8 +48,8 @@
         public ChopperSprite(Texture2D texture, List<(int, Vector2)> path)
         {
             _texture = texture;
-            //_path = path;
-            //AddBoundingBox(new Engine.Objects.BoundingBox(new Vector2(BBPosX, BBPosY), BBWidth, BBHeight));
+            _path = path;
+            AddBoundingBox(new Engine.ObjectGame.BoundingBox(new Vector2(BBPosX, BBPosY), BBWidth, BBHeight));
         }
 
         public void Update()
