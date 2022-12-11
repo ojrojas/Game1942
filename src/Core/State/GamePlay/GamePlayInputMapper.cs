@@ -1,4 +1,6 @@
-﻿namespace Core.State.GamePlay;
+﻿using Microsoft.Xna.Framework.Input.Touch;
+
+namespace Core.State.GamePlay;
 
 public class GamePlayInputMapper : IBaseInputMapper
 {
@@ -79,6 +81,12 @@ public class GamePlayInputMapper : IBaseInputMapper
     }
 
     public IEnumerable<IBaseInputCommand> GetMouseState(MouseState mouseState)
+    {
+        var commands = new List<IBaseInputCommand>();
+        return commands;
+    }
+
+    public IEnumerable<IBaseInputCommand> GetTouchState(TouchCollection touchState)
     {
         var commands = new List<IBaseInputCommand>();
         return commands;

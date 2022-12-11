@@ -1,12 +1,10 @@
-﻿using Engine.State;
-
-namespace Engine.Sound.Base
+﻿namespace Engine.Sound.Base
 {
     public class SoundManager
     {
         private int _soundTrackIndex = -1;
         private IList<SoundEffectInstance> _soundTracks = new List<SoundEffectInstance>();
-        private Dictionary<Type, SoundEffect> _soundBank = new Dictionary<Type, SoundEffect>();
+        private Dictionary<Type, SoundBankItem> _soundBank = new Dictionary<Type, SoundBankItem>();
 
         public void SetSoundTrack(List<SoundEffectInstance> tracks)
         {
@@ -19,13 +17,18 @@ namespace Engine.Sound.Base
             if(_soundBank.ContainsKey(gameEvent.GetType()))
             {
                 var sound = _soundBank[gameEvent.GetType()];
-                sound.Play();
+                sound.Sound.Play(sound.Attributes.Volume, sound.Attributes.Pitch, sound.Attributes.Pan);
             }
         }
 
-        public void RegisterSound(BaseGameStateEvent gameEvent, SoundEffect sound)
+        public void RegisterSound(IBaseGameStateEvent gameEvent, SoundEffect sound)
         {
-            _soundBank.Add(gameEvent.GetType(), sound);
+            RegisterSound(gameEvent, sound, 1.0f, .0f, .0f);
+        }
+
+        public void RegisterSound(IBaseGameStateEvent gameEvent, SoundEffect sound, float volume, float pitch, float pan) 
+        {
+            _soundBank.Add(gameEvent.GetType(), new SoundBankItem(sound, new SoundAttributes(volume, pitch, pan)));
         }
 
         public void PlaySoundTrack()
@@ -48,7 +51,6 @@ namespace Engine.Sound.Base
                     _soundTrackIndex = 0;
                 }
             }
-
         }
     }
 }

@@ -48,7 +48,7 @@
                 }
                 if (command is GamePlayInputCommand.PlayerActionB)
                 {
-                    Shoot(gameTime, TypeShootEnum.Bombs);
+                    Shoot(gameTime, TypeShootEnum.Missile);
                 }
             });
         }

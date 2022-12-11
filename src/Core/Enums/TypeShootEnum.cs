@@ -4,6 +4,7 @@
     {
         None = 0,
         Bullets,
+        Missile,
         Bombs,
         Special
     }

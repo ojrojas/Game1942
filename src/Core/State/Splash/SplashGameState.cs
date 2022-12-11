@@ -1,7 +1,7 @@
 ﻿namespace Core.State.Splash;
 public class SplashGameState : BaseGameState
 {
-    private const string TEXTURENAME = "menus/splashgame";
+    private const string TEXTURENAME = @"images\menus\splashgame";
 
     public override void HandleInput(GameTime gameTime)
     {

@@ -26,10 +26,12 @@ public class BaseObjectGame : IAggregateRoot
     /// </summary>
     public int Height => _texture.Height;
 
+    public event EventHandler<IBaseGameStateEvent> OnObjectChanged;
+
     /// <summary>
     /// Position Scene (methods setter, getter)
     /// </summary>
-    public Vector2 Position
+    public virtual Vector2 Position
     {
         get => _position;
         set
@@ -52,4 +54,9 @@ public class BaseObjectGame : IAggregateRoot
     /// </summary>
     /// <param name="eventGame">Enum event game</param>
     public virtual void OnNotify(IBaseGameStateEvent eventGame) { }
+
+    public void SendEvent(IBaseGameStateEvent eventGame)
+    {
+        OnObjectChanged?.Invoke(this, eventGame);
+    }
 }
