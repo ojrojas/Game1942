@@ -1,7 +1,4 @@
-﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Audio;
-
-namespace Core.State.GamePlay
+﻿namespace Core.State.GamePlay
 {
     public partial class GamePlayState : BaseGameState
     {
