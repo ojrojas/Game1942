@@ -41,7 +41,8 @@ public class BaseInputManager
             actionOnCommands(state);
 
         var touchState = TouchPanel.GetState();
-        foreach (var state in _baseInputMapper.GetTouchState(touchState));
+        foreach (var state in _baseInputMapper.GetTouchState(touchState))
+            actionOnCommands(state);
     }
 }
 
