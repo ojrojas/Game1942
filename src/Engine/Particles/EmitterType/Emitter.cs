@@ -2,8 +2,8 @@
 {
     public class Emitter : BaseObjectGame
     {
-        private LinkedList<Particle> _activeParticles = new LinkedList<Particle>();
-        private LinkedList<Particle> _inactiveParticles = new LinkedList<Particle>();
+        private readonly LinkedList<Particle> _activeParticles = new();
+        private readonly LinkedList<Particle> _inactiveParticles = new();
         private EmitterParticleState _emitterParticleState;
         private IEmitterType _emitterType;
         private int _nbParticleEmittedPerUpdate = 0;
