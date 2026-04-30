@@ -1,38 +1,62 @@
-﻿namespace Engine.ObjectGame
+﻿namespace Engine.ObjectGame;
+
+/// <summary>
+/// AABB stands for Aligned Axis Boundind Box
+///
+/// Detect collisions using brute force for all bouding boxes between passive objects and active objects. Collisions will
+/// not be detected between passive objects themselves, or between active objects themselves. So 2 passive objects will
+/// never collide.
+/// 
+/// Collisions detected will invoke a continuation function where the passive object *hits* an active object.
+/// Passive objects could be bullets, walls or other things that don't 
+/// </summary>
+public class AABBCollisionDetector<P, A>
+    where P : BaseObjectGame
+    where A : BaseObjectGame
 {
+    private IEnumerable<P> _passiveObjects;
+
     /// <summary>
-    /// AABB stands for Aligned Axis Boundind Box
-    ///
-    /// Detect collisions using brute force for all bouding boxes between passive objects and active objects. Collisions will
-    /// not be detected between passive objects themselves, or between active objects themselves. So 2 passive objects will
-    /// never collide.
-    /// 
-    /// Collisions detected will invoke a continuation function where the passive object *hits* an active object.
-    /// Passive objects could be bullets, walls or other things that don't 
+    /// Create an instance of the collision detector
     /// </summary>
-    public class AABBCollisionDetector<P, A>
-        where P : BaseObjectGame
-        where A : BaseObjectGame
+    /// <param name="passiveObjects">passive objects don't react to collisions</param>
+    public AABBCollisionDetector(IEnumerable<P> passiveObjects)
     {
-        private IEnumerable<P> _passiveObjects;
+        _passiveObjects = passiveObjects;
+    }
 
-        /// <summary>
-        /// Create an instance of the collision detector
-        /// </summary>
-        /// <param name="passiveObjects">passive objects don't react to collisions</param>
-        public AABBCollisionDetector(IEnumerable<P> passiveObjects)
+    /// <summary>
+    /// Detect all collisions and call a handler where a passive object *hits* an active object
+    /// </summary>
+    /// <param name="activeObject"></param>
+    /// <param name="collisionHandler"></param>
+    public void DetectCollisions(A activeObject, Action<P, A> collisionHandler)
+    {
+        foreach (var passiveObject in _passiveObjects)
         {
-            _passiveObjects = passiveObjects;
+            if (DetectCollision(passiveObject, activeObject))
+            {
+                collisionHandler(passiveObject, activeObject);
+            }
         }
+    }
 
-        /// <summary>
-        /// Detect all collisions and call a handler where a passive object *hits* an active object
-        /// </summary>
-        /// <param name="activeObject"></param>
-        /// <param name="collisionHandler"></param>
-        public void DetectCollisions(A activeObject, Action<P, A> collisionHandler)
+    /// <summary>
+    /// Detect all collisions and call a handler where a passive object *hits* an active object
+    /// </summary>
+    /// <param name="activeObjects"></param>
+    /// <param name="collisionHandler"></param>
+    public void DetectCollisions(IEnumerable<A> activeObjects, Action<P, A> collisionHandler)
+    {
+        foreach (var passiveObject in _passiveObjects)
         {
-            foreach (var passiveObject in _passiveObjects)
+            var copiedList = new List<A>();
+            foreach (var activeObject in activeObjects)
+            {
+                copiedList.Add(activeObject);
+            }
+
+            foreach (var activeObject in copiedList)
             {
                 if (DetectCollision(passiveObject, activeObject))
                 {
@@ -40,46 +64,21 @@
                 }
             }
         }
+    }
 
-        /// <summary>
-        /// Detect all collisions and call a handler where a passive object *hits* an active object
-        /// </summary>
-        /// <param name="activeObjects"></param>
-        /// <param name="collisionHandler"></param>
-        public void DetectCollisions(IEnumerable<A> activeObjects, Action<P, A> collisionHandler)
+    private bool DetectCollision(P passiveObject, A activeObject)
+    {
+        foreach (var passiveBB in passiveObject.BoundingBoxes)
         {
-            foreach (var passiveObject in _passiveObjects)
+            foreach (var activeBB in activeObject.BoundingBoxes)
             {
-                var copiedList = new List<A>();
-                foreach (var activeObject in activeObjects)
+                if (passiveBB.CollidesWith(activeBB))
                 {
-                    copiedList.Add(activeObject);
-                }
-
-                foreach (var activeObject in copiedList)
-                {
-                    if (DetectCollision(passiveObject, activeObject))
-                    {
-                        collisionHandler(passiveObject, activeObject);
-                    }
+                    return true;
                 }
             }
         }
 
-        private bool DetectCollision(P passiveObject, A activeObject)
-        {
-            foreach (var passiveBB in passiveObject.BoundingBoxes)
-            {
-                foreach (var activeBB in activeObject.BoundingBoxes)
-                {
-                    if (passiveBB.CollidesWith(activeBB))
-                    {
-                        return true;
-                    }
-                }
-            }
-
-            return false;
-        }
+        return false;
     }
 }

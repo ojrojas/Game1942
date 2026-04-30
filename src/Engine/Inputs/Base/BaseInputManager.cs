@@ -1,6 +1,4 @@
-﻿using Microsoft.Xna.Framework.Input.Touch;
-
-namespace Engine.Inputs.Base;
+﻿namespace Engine.Inputs.Base;
 
 /// <summary>
 /// BaseInputManager

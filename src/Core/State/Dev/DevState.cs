@@ -1,6 +1,4 @@
-﻿using Core.Objects;
-
-namespace Core.State.Dev
+﻿namespace Core.State.Dev
 {
     /// <summary>
     /// Used to test out new things, like particle engines and shooting missiles

@@ -1,34 +1,33 @@
-﻿namespace Engine.Particles
+﻿namespace Engine.Particles;
+
+public class CircleEmitterType : IEmitterType
 {
-    public class CircleEmitterType : IEmitterType
+    public float Radius { get; private set; }
+
+    private RandomNumberGenerator _rnd = new RandomNumberGenerator();
+
+    public CircleEmitterType(float radius)
     {
-        public float Radius { get; private set; }
+        Radius = radius;
+    }
 
-        private RandomNumberGenerator _rnd = new RandomNumberGenerator();
+    public Vector2 GetParticleDirection()
+    {
+        return new Vector2(0f, 0f);
+    }
 
-        public CircleEmitterType(float radius)
-        {
-            Radius = radius;
-        }
+    public Vector2 GetParticlePosition(Vector2 emitterPosition)
+    {
+        var newAngle = _rnd.NextRandom(0, 2 * MathHelper.Pi);
+        var positionVector = new Vector2((float)Math.Cos(newAngle), (float)Math.Sin(newAngle));
+        positionVector.Normalize();
 
-        public Vector2 GetParticleDirection()
-        {
-            return new Vector2(0f, 0f);
-        }
+        var distance = _rnd.NextRandom(0, Radius);
+        var position = positionVector * distance;
 
-        public Vector2 GetParticlePosition(Vector2 emitterPosition)
-        {
-            var newAngle = _rnd.NextRandom(0, 2 * MathHelper.Pi);
-            var positionVector = new Vector2((float)Math.Cos(newAngle), (float)Math.Sin(newAngle));
-            positionVector.Normalize();
+        var x = emitterPosition.X + position.X;
+        var y = emitterPosition.Y + position.Y;
 
-            var distance = _rnd.NextRandom(0, Radius);
-            var position = positionVector * distance;
-
-            var x = emitterPosition.X + position.X;
-            var y = emitterPosition.Y + position.Y;
-
-            return new Vector2(x, y);
-        }
+        return new Vector2(x, y);
     }
 }

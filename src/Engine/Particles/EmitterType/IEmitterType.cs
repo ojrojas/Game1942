@@ -1,8 +1,7 @@
-﻿namespace Engine.Particles
+﻿namespace Engine.Particles;
+
+public interface IEmitterType
 {
-    public interface IEmitterType
-    {
-        Vector2 GetParticleDirection();
-        Vector2 GetParticlePosition(Vector2 emitterPosition);
-    }
+    Vector2 GetParticleDirection();
+    Vector2 GetParticlePosition(Vector2 emitterPosition);
 }

@@ -1,6 +1,5 @@
-﻿using Microsoft.Xna.Framework.Input.Touch;
+﻿namespace Engine.Mapper.Base;
 
-namespace Engine.Mapper.Base;
 public class BaseInputMapper : IBaseInputMapper
 {
     public virtual IEnumerable<IBaseInputCommand> GetKeyboardState(KeyboardState keyboardState)

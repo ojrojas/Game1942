@@ -1,7 +1,6 @@
-﻿namespace Engine.ObjectGame
+﻿namespace Engine.ObjectGame;
+
+public interface IGameObjectWithDamage
 {
-    public interface IGameObjectWithDamage
-    {
-        int Damage { get; }
-    }
+    int Damage { get; }
 }
